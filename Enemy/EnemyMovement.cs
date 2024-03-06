@@ -1,45 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] float speed;
-    private Vector3 direction = Vector3.zero;
     public Boundaries boundaries;
-    private bool running = false;
+    [SerializeField] private float _Speed;
+    [SerializeField] private float _MinX, _MaxX, _MinY, _MaxY;
+    [SerializeField] private float _ChangeCountdown;
+    private Vector3 _direction = Vector3.zero;
+    private bool _running;
 
     private void Update()
     {
-        if (boundaries.InFrame == true && !running)
+        if (boundaries.InFrame == true && !_running)
         {
-            StartCoroutine(changeDirection(0.3f));
+            StartCoroutine(changeDirection(_ChangeCountdown));
         }
 
-        transform.position += direction * speed;
+        transform.position += _direction * _Speed;
     }
 
     IEnumerator changeDirection(float timer)
     {
-        running = true;
+        _running = true;
         yield return new WaitForSeconds(timer);
-        direction.x = Random.Range(-0.19f, 0.88f);
-        direction.y = Random.Range(-0.4f, 0.4f);
-        running = false;
+        _direction.x = Random.Range(_MinX, _MaxX);
+        _direction.y = Random.Range(_MinY, _MaxY);
+        _running = false;
     }
 }
-
-
-//if (Time.timeScale == 0)
-//{
-//    speed = 0;
-//}
-//else
-//{
-//    speed = 4f;
-//}
-
-//public Transform camara;
-//private float lastX;
-
-//lastX = camara.position.x;
